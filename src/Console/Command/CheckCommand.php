@@ -3,6 +3,7 @@
 namespace SensioLabs\DeprecationDetector\Console\Command;
 
 use SensioLabs\DeprecationDetector\DeprecationDetector\Configuration\Configuration;
+use SensioLabs\DeprecationDetector\DeprecationDetector\Factory\DefaultFactory;
 use SensioLabs\DeprecationDetector\EventListener\ProgressListener;
 use SensioLabs\DeprecationDetector\RuleSet\Loader;
 use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
@@ -109,7 +110,7 @@ EOF
             );
         }
 
-        /** @TODO Implement detector.yml and override specific values from input */
+        /* @TODO Implement detector.yml and override specific values from input */
         $config = new Configuration(
             $input->getOption('container-path'),
             $input->getOption('no-cache'),
@@ -117,6 +118,9 @@ EOF
             $input->getOption('filter-method-calls'),
             $input->getOption('fail')
         );
+
+        $factory = new DefaultFactory();
+        $detector = $factory->buildDetector($config, $output);
 
         $symfonyMode = $container['symfony_container_reader']->loadContainer($input->getOption('container-path'));
 
@@ -168,7 +172,7 @@ EOF
                 $this->getApplication()->renderException($ex, $output);
             }
         }
-        
+
         return $input->getOption('fail') ? 1 : 0;
     }
 
