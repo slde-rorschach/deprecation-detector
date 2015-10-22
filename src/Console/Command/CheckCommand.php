@@ -112,34 +112,27 @@ EOF
 
         /* @TODO Implement detector.yml and override specific values from input */
         $config = new Configuration(
+            $input->getArgument('ruleset'),
             $input->getOption('container-path'),
             $input->getOption('no-cache'),
             $input->getOption('cache-dir'),
             $input->getOption('filter-method-calls'),
-            $input->getOption('fail')
+            $input->getOption('fail'),
+            $input->getOption('verbose')
         );
 
         $factory = new DefaultFactory();
         $detector = $factory->buildDetector($config, $output);
 
-        $symfonyMode = $container['symfony_container_reader']->loadContainer($input->getOption('container-path'));
+        /* @TODO Checking your %s for deprecations - this could take a while ... */
+        $output->writeln('Checking your application for deprecations - this could take a while ...');
 
-        $output->writeln(
-            sprintf(
-                'Checking your %s for deprecations - this could take a while ...',
-                $symfonyMode ? 'symfony application' : 'application'
-            )
-        );
-
-        if ($input->getOption('no-cache')) {
-            $container['ruleset.cache']->disable();
-        } else {
-            $container['ruleset.cache']->setCacheDir($input->getOption('cache-dir'));
+        try {
+            $detector->checkForDeprecations($sourceArg, $ruleSetArg);
+        } catch(\Exception $e) {
+            return 1;
         }
 
-        if ($input->getOption('verbose')) {
-            $container['event_dispatcher']->addSubscriber(new ProgressListener($output));
-        }
 
         $ruleSet = $this->loadRuleSet($ruleSetArg);
 
@@ -174,47 +167,5 @@ EOF
         }
 
         return $input->getOption('fail') ? 1 : 0;
-    }
-
-    /**
-     * @param $ruleSet
-     *
-     * @return RuleSet
-     *
-     * @throws \RuntimeException
-     */
-    protected function loadRuleSet($ruleSet)
-    {
-        $container = $this->getApplication()->getContainer();
-
-        /* @var Loader\LoaderInterface $loader */
-        if (is_dir($ruleSet)) {
-            $loader = $container['ruleset.loader.directory'];
-        } elseif ('composer.lock' === basename($ruleSet)) {
-            $loader = $container['ruleset.loader.composer'];
-        } else {
-            $loader = $container['ruleset.loader.ruleset'];
-        }
-
-        return $loader->loadRuleSet($ruleSet);
-    }
-
-    /**
-     * @param InputInterface $input
-     *
-     * @return ComposedViolationFilter
-     */
-    private function getFilter(InputInterface $input)
-    {
-        $methodFilterOption = $input->getOption('filter-method-calls');
-        $methodFilterSetting = explode(',', $methodFilterOption);
-
-        $filter = new ComposedViolationFilter(
-            array(
-                new MethodViolationFilter($methodFilterSetting),
-            )
-        );
-
-        return $filter;
     }
 }
