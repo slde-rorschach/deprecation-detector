@@ -168,7 +168,7 @@ EOF
         $container['violation.renderer']->renderViolations($violations);
 
         if ($files->hasParserErrors()) {
-            foreach($files->getParserErrors() as $ex) {
+            foreach ($files->getParserErrors() as $ex) {
                 $this->getApplication()->renderException($ex, $output);
             }
         }
