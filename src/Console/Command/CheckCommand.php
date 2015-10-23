@@ -98,7 +98,6 @@ EOF
     {
         $sourceArg = realpath($input->getArgument('source'));
         $ruleSetArg = realpath($input->getArgument('ruleset'));
-        $container = $this->getApplication()->getContainer();
 
         if (false === $sourceArg || false === $ruleSetArg) {
             throw new \InvalidArgumentException(
@@ -121,7 +120,7 @@ EOF
             $input->getOption('verbose')
         );
 
-        $factory = new DefaultFactory();
+        $factory = new DefaultFactory($this->getApplication()->getDispatcher());
         $detector = $factory->buildDetector($config, $output);
 
         /* @TODO Checking your %s for deprecations - this could take a while ... */
