@@ -130,15 +130,7 @@ EOF
         try {
             $detector->checkForDeprecations($sourceArg, $ruleSetArg);
         } catch(\Exception $e) {
-            return 1;
-        }
-
-
-        $ruleSet = $this->loadRuleSet($ruleSetArg);
-
-        if (null === $ruleSet) {
-            $output->writeln(sprintf('<error>check aborted - no rule set found for %s</error>', $ruleSetArg));
-
+            $output->writeln($e->getMessage());
             return 1;
         }
 
