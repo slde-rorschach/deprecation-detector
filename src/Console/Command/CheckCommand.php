@@ -4,7 +4,7 @@ namespace SensioLabs\DeprecationDetector\Console\Command;
 
 use SensioLabs\DeprecationDetector\DeprecationDetector\Configuration\Configuration;
 use SensioLabs\DeprecationDetector\DeprecationDetector\Factory\DefaultFactory;
-use SensioLabs\DeprecationDetector\EventListener\ProgressListener;
+use SensioLabs\DeprecationDetector\EventListener\OutputProgressListener;
 use SensioLabs\DeprecationDetector\RuleSet\Loader;
 use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
 use SensioLabs\DeprecationDetector\Violation\ViolationFilter\ComposedViolationFilter;

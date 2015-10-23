@@ -41,6 +41,7 @@ class SymbolTableVariableResolverVisitor extends NodeVisitorAbstract implements 
     {
         if ($node instanceof Node\Stmt\ClassLike) {
             $this->table->enterScope(new TableScope(TableScope::CLASS_LIKE_SCOPE));
+            /* @TODO bugs undefined property namespacedName a*/
             $this->table->setSymbol('this', $node->namespacedName->toString());
         }
 
