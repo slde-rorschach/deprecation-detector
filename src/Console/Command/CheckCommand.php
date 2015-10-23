@@ -128,36 +128,15 @@ EOF
         $output->writeln('Checking your application for deprecations - this could take a while ...');
 
         try {
-            $detector->checkForDeprecations($sourceArg, $ruleSetArg);
+            $violations = $detector->checkForDeprecations($sourceArg, $ruleSetArg);
         } catch(\Exception $e) {
             $output->writeln($e->getMessage());
             return 1;
         }
 
-        $lib = (is_dir($ruleSetArg) ? $ruleSetArg : realpath('vendor')); // TODO: not hard coded
-        $container['ancestor_resolver']->setSourcePaths(array($sourceArg, $lib));
+        /* @TODO move to Detector */
+        //$output->writeln(sprintf('<comment>There are %s deprecations:</comment>', count($violations)));
 
-        $files = $container['finder.php_usage'];
-        $files->in($sourceArg);
-        $filter = $this->getFilter($input);
-        $violations = $container['violation_detector']->getViolations($ruleSet, $files, $filter);
-
-        if (0 === count($violations)) {
-            $output->writeln('<info>There are no violations - congratulations!</info>');
-
-            return 0;
-        }
-
-        $output->writeln(sprintf('<comment>There are %s deprecations:</comment>', count($violations)));
-
-        $container['violation.renderer']->renderViolations($violations);
-
-        if ($files->hasParserErrors()) {
-            foreach ($files->getParserErrors() as $ex) {
-                $this->getApplication()->renderException($ex, $output);
-            }
-        }
-
-        return $input->getOption('fail') ? 1 : 0;
+        return $config->failOnDeprecation() ? 1 : 0;
     }
 }
