@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "17fc193c1f6a443d87874fb325bd280f",
-    "content-hash": "96c50beb8f3f3e5edee2bab0561d4730",
+    "hash": "d336e125fb7adf6936ad43db2590628a",
+    "content-hash": "9d341dcc1747e3cba553c4171c0f6b99",
     "packages": [
         {
             "name": "nikic/php-parser",
@@ -269,6 +269,7 @@
             "time": "2015-09-15 08:30:42"
         },
         {
+<<<<<<< HEAD
             "name": "symfony/event-dispatcher",
             "version": "v2.7.5",
             "source": {
@@ -376,6 +377,8 @@
             "time": "2015-09-24 11:58:55"
         },
         {
+=======
+>>>>>>> Removed EventDispatcher
             "name": "symfony/filesystem",
             "version": "v2.7.5",
             "source": {
