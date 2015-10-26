@@ -4,11 +4,7 @@ namespace SensioLabs\DeprecationDetector\Console\Command;
 
 use SensioLabs\DeprecationDetector\DeprecationDetector\Configuration\Configuration;
 use SensioLabs\DeprecationDetector\DeprecationDetector\Factory\DefaultFactory;
-use SensioLabs\DeprecationDetector\EventListener\OutputProgressListener;
-use SensioLabs\DeprecationDetector\RuleSet\Loader;
 use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
-use SensioLabs\DeprecationDetector\Violation\ViolationFilter\ComposedViolationFilter;
-use SensioLabs\DeprecationDetector\Violation\ViolationFilter\MethodViolationFilter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -128,8 +124,9 @@ EOF
 
         try {
             $violations = $detector->checkForDeprecations($sourceArg, $ruleSetArg);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $output->writeln($e->getMessage());
+
             return 1;
         }
 
