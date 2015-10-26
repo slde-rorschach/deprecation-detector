@@ -116,11 +116,8 @@ EOF
             $input->getOption('verbose')
         );
 
-        $factory = new DefaultFactory($this->getApplication()->getDispatcher());
+        $factory = new DefaultFactory();
         $detector = $factory->buildDetector($config, $output);
-
-        /* @TODO Checking your %s for deprecations - this could take a while ... */
-        $output->writeln('Checking your application for deprecations - this could take a while ...');
 
         try {
             $violations = $detector->checkForDeprecations($sourceArg, $ruleSetArg);
