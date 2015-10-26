@@ -127,9 +127,10 @@ EOF
             return 1;
         }
 
-        /* @TODO move to Detector */
-        //$output->writeln(sprintf('<comment>There are %s deprecations:</comment>', count($violations)));
+        if ($config->failOnDeprecation() && !empty($violations)) {
+            return 1;
+        }
 
-        return $config->failOnDeprecation() ? 1 : 0;
+        return 0;
     }
 }
