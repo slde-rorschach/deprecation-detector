@@ -116,7 +116,7 @@ EOF
         );
 
         $factory = new DetectorFactory();
-        $detector = $factory->buildDetector($config, $output);
+        $detector = $factory->create($config, $output);
 
         try {
             $violations = $detector->checkForDeprecations($sourceArg, $ruleSetArg);
