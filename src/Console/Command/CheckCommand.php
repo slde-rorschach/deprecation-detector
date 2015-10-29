@@ -104,7 +104,6 @@ EOF
             );
         }
 
-        /* @TODO Implement detector.yml and override specific values from input */
         $config = new Configuration(
             $input->getArgument('ruleset'),
             $input->getOption('container-path'),
