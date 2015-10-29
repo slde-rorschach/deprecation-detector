@@ -2,9 +2,8 @@
 
 namespace SensioLabs\DeprecationDetector\Console\Command;
 
-use SensioLabs\DeprecationDetector\DeprecationDetector\Configuration\Configuration;
-use SensioLabs\DeprecationDetector\DeprecationDetector\Factory\DefaultFactory;
-use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
+use SensioLabs\DeprecationDetector\Configuration\Configuration;
+use SensioLabs\DeprecationDetector\DetectorFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -116,7 +115,7 @@ EOF
             $input->getOption('verbose')
         );
 
-        $factory = new DefaultFactory();
+        $factory = new DetectorFactory();
         $detector = $factory->buildDetector($config, $output);
 
         try {
