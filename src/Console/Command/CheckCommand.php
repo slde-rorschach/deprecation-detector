@@ -120,7 +120,7 @@ EOF
         try {
             $violations = $detector->checkForDeprecations($sourceArg, $ruleSetArg);
         } catch (\Exception $e) {
-            $output->writeln('<error>' . $e->getMessage() . '</error>');
+            $output->writeln('<error>'.$e->getMessage().'</error>');
 
             return 1;
         }
