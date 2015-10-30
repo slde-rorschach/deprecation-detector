@@ -29,7 +29,7 @@ class CheckCommand extends Command
                         'composer.lock'
                     ),
                     new InputOption(
-                        'container-path',
+                        'container-cache',
                         null,
                         InputOption::VALUE_REQUIRED,
                         'The path to symfony container cache',
@@ -106,7 +106,7 @@ EOF
 
         $config = new Configuration(
             $input->getArgument('ruleset'),
-            $input->getOption('container-path'),
+            $input->getOption('container-cache'),
             $input->getOption('no-cache'),
             $input->getOption('cache-dir'),
             $input->getOption('filter-method-calls'),
@@ -120,7 +120,7 @@ EOF
         try {
             $violations = $detector->checkForDeprecations($sourceArg, $ruleSetArg);
         } catch (\Exception $e) {
-            $output->writeln($e->getMessage());
+            $output->writeln('<error>' . $e->getMessage() . '</error>');
 
             return 1;
         }
